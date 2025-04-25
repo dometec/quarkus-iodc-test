@@ -4,19 +4,19 @@ import java.time.Duration;
 
 import io.quarkus.oidc.AccessTokenCredential;
 import io.quarkus.oidc.TenantIdentityProvider;
-import io.quarkus.runtime.StartupEvent;
 import io.quarkus.security.identity.SecurityIdentity;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
-@ApplicationScoped
-public class ApplicationLifecycleListener {
+@Path("/check")
+public class Resource {
 
 	@Inject
 	TenantIdentityProvider identityProvider;
 
-	public void init(@Observes StartupEvent ev) {
+	@GET
+	public void init() {
 
 		AccessTokenCredential tokenCredential = new AccessTokenCredential("fakeaccesstoken");
 		SecurityIdentity securityIdentity = identityProvider.authenticate(tokenCredential).await()
